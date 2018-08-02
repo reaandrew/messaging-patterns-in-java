@@ -1,1 +1,1 @@
-# messaging-patterns-in-java
+# messaging-patterns-in-nodejs
