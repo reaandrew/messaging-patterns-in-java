@@ -1,0 +1,23 @@
+version: '2'
+services:
+  service_a:
+    build: ./ServiceA
+    ports:
+        - "8001:8000"
+    links:
+        - "service_b"
+        - "rabbitmq"
+    depends_on:
+        - rabbitmq
+    command: sh -c 'while ! nc -z rabbitmq 5672; do sleep 3; done; npm start'
+  service_b:
+    build: ./ServiceB
+    ports:
+        - "8000:8000"
+  rabbitmq:
+      image: rabbitmq:3.6.9-management
+      ports:
+        - "15672:15672"
+      volumes:
+        - ./config/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+        - ./config/rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config

@@ -1,0 +1,16 @@
+version: '2'
+services:
+  service_a:
+    build:
+        context: ./
+        dockerfile: ./ServiceADockerfile
+    ports:
+        - "8001:8000"
+    links:
+        - "service_b"
+  service_b:
+    build:
+        context: ./
+        dockerfile: ./ServiceBDockerfile
+    ports:
+        - "8000:8000"

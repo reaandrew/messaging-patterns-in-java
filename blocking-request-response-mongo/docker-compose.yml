@@ -1,0 +1,18 @@
+version: '2'
+services:
+  service_a:
+    build: ./ServiceA
+    ports:
+        - "8001:8000"
+    links:
+        - "service_b"
+        - "mongodb"
+    depends_on:
+        - mongodb
+    command: sh -c 'while ! nc -z mongodb 27017; do sleep 3; done; node main.js'
+  service_b:
+    build: ./ServiceB
+    ports:
+        - "8000:8000"
+  mongodb:
+    image: mongo

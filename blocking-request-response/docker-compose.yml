@@ -1,0 +1,12 @@
+version: '2'
+services:
+  service_a:
+    build: ./ServiceA
+    ports:
+        - "8001:8000"
+    links:
+        - "service_b"
+  service_b:
+    build: ./ServiceB
+    ports:
+        - "8000:8000"

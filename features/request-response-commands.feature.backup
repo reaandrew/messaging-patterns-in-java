@@ -1,0 +1,50 @@
+Feature: Callers can issue commands to Application "A" asynchronously.
+  As a caller of Application "A"
+  I want to issue commands asynchronously to Application "A"
+  So that I am not blocked by availability issues with Application "A" or its dependencies.
+
+  Scenario: Receiving a CorrelationID for a given request
+    Given Application "A" exists
+    When I submit a command to Application "A"
+    Then I receive a response which contains a CorrelationID
+    And I receive a response with an Accepted HTTP Status Code
+
+  Scenario: Receiving a Redirect response for a given CorrelationID
+    Given I have a CorrelationID from Application "A"
+    And the request associated with the CorrelationID has completed
+    When I query Application "A" with the CorrelationID
+    Then I receive a response with a HTTP Permanent Redirect Status Code
+
+  Scenario: Showing a general progress indicator whether a request has completed or not
+    Given I have a CorrelationID from Application "A"
+    And the request associated with the CorrelationID has not completed
+    When I query Application "A" with the CorrelationID
+    Then I receive a response with an Accepted HTTP Status Code
+
+  Scenario: Showing a specific progress indicator with specific steps during the processing of a request
+    Given I have a CorrelationID from Application "A"
+    And the request associated with the CorrelationID has completed Step 1 of 2 Steps
+    When I query Application "A" with the CorrelationID
+    Then I receive a response with an Accepted HTTP Status Code
+    And a msg in the body with "50% complete"
+
+  Scenario: Receiving a Not Found response for a given CorrelationID
+    Given I have a CorrelationID from Application "A"
+    And the CorrelationID is not associated with any request
+    When I query Application "A" with the CorrelationID
+    Then I receive a response with a Not Found HTTP Status Code
+
+  Scenario: When a service calls an upstream service which is down
+    Given Application "B" is down
+    And Application "A" is up
+    When I submit a command to Application "A"
+    Then I receive a response which contains a CorrelationID
+    And I receive a response with an Accepted HTTP Status Code
+
+  Scenario: When an upstream service recovers and stored messages are forwarded on
+    Given Application "B" is down
+    When I submit a command to Application "A"
+    And I bring Application "B" up
+    And I query Application "A" with the CorrelationID
+    Then I receive a response with a HTTP OK Status
+

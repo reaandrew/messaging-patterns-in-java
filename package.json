@@ -1,0 +1,28 @@
+{
+  "name": "messaging-patterns",
+  "version": "1.0.0",
+  "description": "A set of patterns showing the use of messaging systems with APIs.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "cucumber": "^2.1.0",
+    "eslint-config": "^0.3.0",
+    "express": "^4.15.2",
+    "restler": "^3.4.0",
+    "should": "^11.2.1",
+    "uuid": "^3.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.itsshared.net:blueprintonline/messaging-patterns.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
